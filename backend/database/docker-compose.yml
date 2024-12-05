@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: admin      # Nom d'utilisateur
+      POSTGRES_PASSWORD: admin  # Mot de passe
+      POSTGRES_DB: corumDB    # Nom de la base de données
+    ports:
+      - "5435:5432"  # Port local : Port du conteneur
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistance des données
+    restart: always               # Assure le redémarrage automatique en cas de panne
+
+volumes:
+  postgres_data:
+    driver: local
