@@ -6,6 +6,7 @@ import authenticate from "#plugins/authenticate";
 import swaggerPlugin from "#plugins/swagger";
 import prismaPlugin from "./plugins/db";
 import dotenv from "dotenv";
+import { configureCors } from "./config/cors";
 
 dotenv.config();
 
@@ -13,15 +14,23 @@ const app = Fastify({
   logger: true,
 });
 
+// Configurer CORS
+const allowedOrigins = [process.env.FRONTEND_URL || "http://localhost:8000"];
+configureCors(app, allowedOrigins);
+
 // Configurer le plugin JWT
 app.register(fastifyJwt, { secret: process.env.SECRET_JWT as string });
 
-// Enregistrer  le hook JWT
+// Enregistrer le hook JWT
 app.register(authenticate);
 
+// Enregistrer Prisma plugin
 app.register(prismaPlugin);
+
+// Enregistrer swagger plugin
 app.register(swaggerPlugin);
 
+// Enregistrer les routes
 app.register(authenticationRoute);
 app.register(userRoutes, { prefix: "/users" });
 

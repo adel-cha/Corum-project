@@ -29,6 +29,8 @@ export class AuthenticationService {
   async generateJWTToken(
     password: string,
     user: {
+      firstName: string;
+      lastName: string;
       email: string;
       password: string;
       id: string;
