@@ -39,11 +39,25 @@ export const getUserByIdHandler = async (
 
 // Handler pour récupérer tous les utilisateurs
 export const getAllUsersHandler = async (
-  request: FastifyRequest,
+  request: FastifyRequest<{
+    Querystring: {
+      page?: string;
+      limit?: string;
+      [key: string]: string | number | Date | undefined;
+    };
+  }>,
   reply: FastifyReply
 ) => {
   try {
-    const users = await userService.getAllUsers();
+    const page = parseInt(request.query.page || "1", 10);
+    const limit = parseInt(request.query.limit || "10", 10);
+
+    // Extraire les autres filtres depuis querystring
+    const filters = { ...request.query };
+    delete filters.page;
+    delete filters.limit;
+
+    const users = await userService.getAllUsers(page, limit, filters);
     reply.status(200).send(users);
   } catch (error) {
     console.error("Error in getAllUsersHandler:", error);

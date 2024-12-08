@@ -1,5 +1,5 @@
 import fp from "fastify-plugin";
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 
 // Plugin d'authentification
 const authenticate = async (request: FastifyRequest, reply: FastifyReply) => {

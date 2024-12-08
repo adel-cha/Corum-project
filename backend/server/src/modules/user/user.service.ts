@@ -49,12 +49,30 @@ export class UserService {
   }
 
   // Récupérer tous les utilisateurs
-  async getAllUsers() {
+  async getAllUsers(
+    page: number = 1,
+    limit: number = 10,
+    filters: { [key: string]: string | number | Date | undefined } = {}
+  ) {
     try {
-      const users = await this.userModel.getAllUsers();
-      return users;
+      const offset = (page - 1) * limit;
+
+      const [data, total] = await this.userModel.getAllUsers(
+        filters,
+        offset,
+        limit
+      );
+
+      const totalPages = Math.ceil(total / limit);
+
+      return {
+        data,
+        total,
+        page,
+        totalPages,
+      };
     } catch (error) {
-      console.error("Error in getAllUsers:", error);
+      console.error("Error in getUsers:", error);
       throw new Error("Unable to fetch users");
     }
   }

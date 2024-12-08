@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { CreateUserInput, UpdateUserInput } from "./user.schema";
+import { Prisma } from "@prisma/client";
 const userResponse = {
   id: true,
   firstName: true,
@@ -34,10 +35,39 @@ export class UserModel {
   }
 
   // Récupérer tous les utilisateurs
-  async getAllUsers() {
-    return this.fastify.prisma.user.findMany({
-      select: userResponse,
-    });
+  async getAllUsers(
+    filters: { [key: string]: string | number | Date | undefined },
+    offset: number,
+    limit: number
+  ) {
+    // Appliquer les filtres
+    const where: Prisma.UserWhereInput = {};
+
+    const validKeys = [
+      "firstName",
+      "lastName",
+      "email",
+      "birthDate",
+      "createdAt",
+      "updatedAt",
+    ];
+    for (const key of Object.keys(filters)) {
+      if (validKeys.includes(key) && key) {
+        where[key as keyof Prisma.UserWhereInput] = {
+          contains: filters[key],
+          mode: "insensitive",
+        } as any;
+      }
+    }
+    return await this.fastify.prisma.$transaction([
+      this.fastify.prisma.user.findMany({
+        where,
+        skip: offset,
+        take: limit,
+        select: userResponse,
+      }),
+      this.fastify.prisma.user.count({ where }),
+    ]);
   }
 
   // Mettre à jour un utilisateur
