@@ -9,6 +9,7 @@ const userResponse = {
   birthDate: true,
   createdAt: true,
   updatedAt: true,
+  active: true,
 };
 // Modèle pour les interactions avec la base de données
 export class UserModel {
@@ -19,7 +20,11 @@ export class UserModel {
   }
 
   // Créer un utilisateur
-  async createUser(data: CreateUserInput) {
+  async createUser(
+    data: CreateUserInput & {
+      password: string;
+    }
+  ) {
     return this.fastify.prisma.user.create({
       data,
       select: userResponse,
@@ -53,10 +58,21 @@ export class UserModel {
     ];
     for (const key of Object.keys(filters)) {
       if (validKeys.includes(key) && key) {
-        where[key as keyof Prisma.UserWhereInput] = {
-          contains: filters[key],
-          mode: "insensitive",
-        } as any;
+        if (key === "birthDate") {
+          const parsedDate = new Date(filters[key] as string);
+          if (!isNaN(parsedDate.getTime())) {
+            // Convertir la date en ISO-8601
+            const isoDate = parsedDate.toISOString();
+            where[key as keyof Prisma.UserWhereInput] = {
+              equals: isoDate,
+            } as any;
+          }
+        } else {
+          where[key as keyof Prisma.UserWhereInput] = {
+            contains: filters[key],
+            mode: "insensitive",
+          } as any;
+        }
       }
     }
     return await this.fastify.prisma.$transaction([
@@ -72,6 +88,7 @@ export class UserModel {
 
   // Mettre à jour un utilisateur
   async updateUser(id: string, data: UpdateUserInput) {
+    console.log("data", data);
     return this.fastify.prisma.user.update({
       where: { id },
       data,

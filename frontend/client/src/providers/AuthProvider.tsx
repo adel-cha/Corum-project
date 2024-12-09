@@ -20,11 +20,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (token) {
       try {
         if (isTokenExpired(token)) {
-          console.log('Token expired');
           localStorage.removeItem('token'); // Enlevez le token expiré
         } else {
           const decodedUser: User = jwtDecode(token);
-          setUser(decodedUser);
+          if (decodedUser.active) setUser(decodedUser);
         }
       } catch (error) {
         console.error('Invalid token', error);

@@ -1,5 +1,12 @@
 import { FastifyInstance } from "fastify";
-
+const userResponse = {
+  id: true,
+  email: true,
+  firstName: true,
+  active: true,
+  lastName: true,
+  password: true,
+};
 export class AuthenticationModel {
   private fastify: FastifyInstance;
 
@@ -11,11 +18,7 @@ export class AuthenticationModel {
   async getUserByEmail(email: string) {
     return this.fastify.prisma.user.findUnique({
       where: { email },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-      },
+      select: userResponse,
     });
   }
 }

@@ -6,6 +6,8 @@ import UserTable from '../components/table/UserTable';
 import UserFilter from '../components/table/UserFilter';
 import Pagination from '../components/table/Pagination';
 import { User } from '#types/user';
+import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const HomeContainer: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -16,15 +18,18 @@ const HomeContainer: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [sortBy, setSortBy] = useState<string>('name');
   const [sortOrder, setSortOrder] = useState<string>('asc');
-  const [filter, setFilter] = useState({ firstName: '', email: '' });
-
+  const [filter, setFilter] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    birthDate: '',
+  });
+  const navigate = useNavigate();
   const fetchUsers = async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await getUsers(page, filter);
-      console.log('response', response);
-
       setUsers(response.data);
       setTotalPages(response.totalPages);
     } catch (err) {
@@ -33,22 +38,13 @@ const HomeContainer: React.FC = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    // Fonction pour récupérer les utilisateurs avec la pagination
-    const fetchUsers = async () => {
-      // Remplacez ceci par votre logique d'appel API pour obtenir les utilisateurs
-      const response = await fetch(
-        `/api/users?page=${page}&firstName=${filter.firstName}&email=${filter.email}`,
-      );
-      const data = await response.json();
-      setUsers(data.users);
-      setTotalPages(data.totalPages);
-    };
-
-    fetchUsers();
-  }, [page, filter]);
-  const handleFilter = (firstName: string, email: string) => {
-    setFilter({ firstName, email });
+  const handleFilter = (
+    firstName: string,
+    lastName: string,
+    email: string,
+    birthDate: string,
+  ) => {
+    setFilter({ firstName, lastName, email, birthDate });
     setPage(1); // Réinitialiser à la première page lors du filtrage
   };
   useEffect(() => {
@@ -68,10 +64,19 @@ const HomeContainer: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
-
+  const buttonStyle =
+    'ml-2 mr-2 p-2 border text-white font-medium rounded cursor-pointer bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-500 focus:bg-teal-900 hover:shadow-lg';
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Liste des Utilisateurs</h1>
+      <div className="flex justify-between p-2">
+        <h1 className="text-2xl font-bold mb-4">Liste des Utilisateurs</h1>
+        <Button
+          text="Ajouter un utilisateur"
+          type="button"
+          onClick={() => navigate('/create')}
+          className={buttonStyle}
+        />
+      </div>
 
       {error && <div className="text-red-500">{error}</div>}
       {loading ? (
@@ -79,7 +84,11 @@ const HomeContainer: React.FC = () => {
       ) : (
         <>
           <UserFilter onFilter={handleFilter} />
-          <UserTable users={users} onSort={handleSort} />
+          <UserTable
+            users={users}
+            onSort={handleSort}
+            fetchUsers={fetchUsers}
+          />
           <Pagination
             currentPage={page}
             totalPages={totalPages}

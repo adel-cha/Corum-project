@@ -19,7 +19,7 @@ export class UserService {
     try {
       const { birthDate, ...rest } = data;
 
-      const hashedPassword = await this.hashPassword(data.password);
+      const hashedPassword = await this.hashPassword("corum123");
 
       const formattedBirthday = new Date(birthDate);
       const newUser = await this.userModel.createUser({

@@ -1,19 +1,26 @@
 // src/components/UserFilter.tsx
 
 import React, { useState } from 'react';
-
+import Button from '../../components/Button';
+import InputField from '../../components/InputField';
 interface UserFilterProps {
-  onFilter: (name: string, email: string) => void;
+  onFilter: (
+    firstName: string,
+    email: string,
+    lastName: string,
+    birthDate: string,
+  ) => void;
 }
 
 const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [birthDate, setBirthDate] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onFilter(firstName, email);
+    onFilter(firstName, lastName, email, birthDate);
   };
 
   return (
@@ -23,60 +30,51 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
     >
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="flex-1">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="name"
-          >
-            Prénom
-          </label>
-          <input
-            type="text"
+          <InputField
             id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Entrez le Prénom"
-          />
-        </div>
-        <div className="flex-1">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="name"
-          >
-            Nom
-          </label>
-          <input
+            label="Prénom"
             type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Entrez le nom"
+            name="firstName"
+            value={firstName}
+            placeholder="Entrez le Prénom"
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
         <div className="flex-1">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            type="email"
+          <InputField
+            id="lastName"
+            label="Nom"
+            type="text"
+            name="lastName"
+            value={lastName}
+            placeholder="Entrez le nom"
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+        <div className="flex-1">
+          <InputField
             id="email"
+            label="Email"
+            type="email"
+            name="email"
             value={email}
+            placeholder="Entrez la date de naissance"
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Entrez l'email"
+          />
+        </div>
+        <div className="flex-1">
+          <InputField
+            id="birthDate"
+            label="Date de naissance"
+            type="date"
+            name="birthDate"
+            value={birthDate}
+            placeholder="Entrez la date de naissance"
+            onChange={(e) => setBirthDate(e.target.value)}
           />
         </div>
         <div className="flex items-end mt-4 md:mt-0">
-          <button
-            type="submit"
-            className="w-full md:w-auto px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 transition duration-200"
-          >
-            Filtrer
-          </button>
+          <Button text="Filtrer" type="submit" />
         </div>
       </div>
     </form>

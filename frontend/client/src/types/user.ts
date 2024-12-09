@@ -5,8 +5,12 @@ export const UserSchema = z.object({
   id: z.string().uuid(), // UUID pour l'identifiant
   firstName: z.string().min(1), // Prénom non vide
   lastName: z.string().min(1), // Nom non vide
-  email: z.string().email(), // Email valide
-  birthDate: z.string().transform((date) => new Date(date)), // Convertir en objet Date
+  email: z.string().email(), // Email valide*
+  active: z.boolean().optional(),
+  birthDate: z
+    .string()
+    .transform((date) => new Date(date))
+    .optional(), // Convertir en objet Date
   createdAt: z.string().transform((date) => new Date(date)), // Date de création
   updatedAt: z.string().transform((date) => new Date(date)), // Date de mise à jour
 });

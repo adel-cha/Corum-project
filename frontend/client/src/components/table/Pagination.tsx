@@ -1,5 +1,4 @@
-// src/components/Pagination.tsx
-
+import Button from '../../components/Button';
 import React from 'react';
 
 interface PaginationProps {
@@ -13,25 +12,24 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
+  const buttonStyle = 'ml-2 mr-2 p-2 border bg-teal-600 text-white rounded';
   return (
     <div className="mt-4">
-      <button
+      <Button
+        text="< Précédent"
+        className={buttonStyle}
+        disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="mr-2 p-2 border"
-      >
-        Précédent
-      </button>
+      />
       <span>
         Page {currentPage} sur {totalPages}
       </span>
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
+      <Button
+        text="Suivant >"
+        className={buttonStyle}
         disabled={currentPage === totalPages}
-        className="ml-2 p-2 border"
-      >
-        Suivant
-      </button>
+        onClick={() => onPageChange(currentPage + 1)}
+      />
     </div>
   );
 };

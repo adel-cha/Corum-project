@@ -33,6 +33,7 @@ export class AuthenticationService {
       lastName: string;
       email: string;
       password: string;
+      active: boolean;
       id: string;
     }
   ) {
@@ -41,10 +42,15 @@ export class AuthenticationService {
       if (!isPasswordValid) {
         throw new Error("Invalid email or password");
       }
-
       // Générer un token JWT
       const token = this.fastify.jwt.sign(
-        { id: user.id, email: user.email },
+        {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          active: user.active,
+        },
         { expiresIn: "1h" }
       );
       return token;

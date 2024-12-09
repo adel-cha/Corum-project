@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:3000', // Base de l'API
+  baseURL: 'http://localhost:3000', // Base de l'API
   headers: {
     'Content-Type': 'application/json',
   },
@@ -12,6 +12,8 @@ apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    console.warn('No token found in localStorage');
   }
   return config;
 });
@@ -20,7 +22,11 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Vous pouvez gérer les erreurs globalement ici
+    if (error.response) {
+      console.error('Backend error:', error.response.data);
+    } else {
+      console.error('Network or other error:', error.message);
+    }
     return Promise.reject(error);
   },
 );
