@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import * as userController from "./user.controller";
-import { validateSchema } from "#plugins/swagger";
+import { validateSchema } from "../../plugins/swagger";
 import { $ref } from "./user.schema";
 import {
   createUserSchema,

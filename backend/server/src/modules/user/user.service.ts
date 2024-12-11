@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { UserModel } from "./user.model";
 import { CreateUserInput, UpdateUserInput } from "./user.schema";
 
@@ -20,7 +20,6 @@ export class UserService {
       const { birthDate, ...rest } = data;
 
       const hashedPassword = await this.hashPassword("corum123");
-
       const formattedBirthday = new Date(birthDate);
       const newUser = await this.userModel.createUser({
         ...rest,
@@ -52,15 +51,19 @@ export class UserService {
   async getAllUsers(
     page: number = 1,
     limit: number = 10,
+    sortBy: string,
+    sortOrder: "asc" | "desc",
     filters: { [key: string]: string | number | Date | undefined } = {}
   ) {
     try {
       const offset = (page - 1) * limit;
 
-      const [data, total] = await this.userModel.getAllUsers(
+      const { data, total } = await this.userModel.getAllUsers(
         filters,
         offset,
-        limit
+        limit,
+        sortBy,
+        sortOrder
       );
 
       const totalPages = Math.ceil(total / limit);

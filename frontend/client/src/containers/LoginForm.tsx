@@ -29,7 +29,11 @@ const LoginForm: React.FC = () => {
       login(token, userData); // Utilisez la fonction de contexte pour stocker les données de l'utilisateur
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message); // Afficher l'erreur à l'utilisateur
+        setError(
+          err.message === '401'
+            ? 'Veuillez vérifier votre adresse mail et mot de passe'
+            : err.message,
+        ); // Afficher l'erreur à l'utilisateur
       } else {
         setError('Une erreur inconnue est survenue.'); // Gérer les autres types d'erreurs
       }
@@ -38,13 +42,15 @@ const LoginForm: React.FC = () => {
   const handleNewPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); // Réinitialiser l'erreur
-    console.log('newPassword', newPassword);
     try {
       if (user) {
         if (newPassword === password) {
           return setError(
-            "Le nouveau mot de passe doit être différent de l'ancien",
+            "Le nouveau mot de passe doit être différent de l'ancien.",
           );
+        }
+        if (newPassword.length < 6) {
+          return setError('Le mot de passe doit avoir plus de 6 caractères.');
         }
         const userDataToUpdate = await getUsersById(user.id);
         await updateUser(user.id, {

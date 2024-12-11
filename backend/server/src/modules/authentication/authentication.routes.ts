@@ -4,8 +4,8 @@ import {
   authenticationSchemas,
   $ref,
 } from "./authentication.schema";
-import * as authenticationController from "./authentication.contoller";
-import { validateSchema } from "#plugins/swagger";
+import * as authenticationController from "./authentication.controller";
+import { validateSchema } from "../../plugins/swagger";
 
 const authenticationRoutes = (fastify: FastifyInstance) => {
   // Initialiser le contrôleur

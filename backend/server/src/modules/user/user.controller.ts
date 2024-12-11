@@ -2,7 +2,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { UserService } from "./user.service";
 import { CreateUserInput, UpdateUserInput } from "./user.schema";
 
-let userService: UserService;
+export let userService: UserService;
 
 // Initialiser le service utilisateur
 export const initUserController = (fastify: FastifyInstance) => {
@@ -43,6 +43,8 @@ export const getAllUsersHandler = async (
     Querystring: {
       page?: string;
       limit?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
       [key: string]: string | number | Date | undefined;
     };
   }>,
@@ -51,13 +53,21 @@ export const getAllUsersHandler = async (
   try {
     const page = parseInt(request.query.page || "1", 10);
     const limit = parseInt(request.query.limit || "10", 10);
+    const sortBy = request.query.sortBy || "defaultField";
+    const sortOrder = request.query.sortOrder === "desc" ? "desc" : "asc";
 
     // Extraire les autres filtres depuis querystring
     const filters = { ...request.query };
     delete filters.page;
     delete filters.limit;
 
-    const users = await userService.getAllUsers(page, limit, filters);
+    const users = await userService.getAllUsers(
+      page,
+      limit,
+      sortBy,
+      sortOrder,
+      filters
+    );
     reply.status(200).send(users);
   } catch (error) {
     console.error("Error in getAllUsersHandler:", error);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AuthContext } from '../providers/AuthProvider';
 import { MemoryRouter } from 'react-router-dom';
-import { User } from '#types/user';
+import { User } from '../types/user';
 
 export const renderWithAuthAndRouter = (
   ui: React.ReactNode,

@@ -1,7 +1,7 @@
 // src/components/UserTable.tsx
 
 import React from 'react';
-import { User } from '#types/user';
+import { User } from './../../types/user';
 import { TableColumnHeader, TableColumn } from './internal';
 
 interface UserTableProps {

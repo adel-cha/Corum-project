@@ -43,9 +43,10 @@ export class UserModel {
   async getAllUsers(
     filters: { [key: string]: string | number | Date | undefined },
     offset: number,
-    limit: number
+    limit: number,
+    sortBy: string,
+    sortOrder: "asc" | "desc"
   ) {
-    // Appliquer les filtres
     const where: Prisma.UserWhereInput = {};
 
     const validKeys = [
@@ -75,20 +76,26 @@ export class UserModel {
         }
       }
     }
-    return await this.fastify.prisma.$transaction([
-      this.fastify.prisma.user.findMany({
-        where,
-        skip: offset,
-        take: limit,
-        select: userResponse,
-      }),
-      this.fastify.prisma.user.count({ where }),
-    ]);
+
+    const orderBy: Prisma.UserOrderByWithRelationInput = {};
+    if (validKeys.includes(sortBy)) {
+      orderBy[sortBy as keyof Prisma.UserOrderByWithRelationInput] = sortOrder;
+    }
+
+    const data = await this.fastify.prisma.user.findMany({
+      where,
+      skip: offset,
+      take: limit,
+      select: userResponse,
+      orderBy: orderBy,
+    });
+    const total = await this.fastify.prisma.user.count({ where });
+
+    return { data, total };
   }
 
   // Mettre à jour un utilisateur
   async updateUser(id: string, data: UpdateUserInput) {
-    console.log("data", data);
     return this.fastify.prisma.user.update({
       where: { id },
       data,

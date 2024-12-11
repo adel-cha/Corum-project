@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./server # Chemin vers le dossier contenant le Dockerfile
+      dockerfile: Dockerfile # Nom du Dockerfile personnalisé
+    container_name: fastify-backend
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://admin:admin@database:5432/corumDB?schema=public"
+      SECRET_JWT: "d2baa44b064ddffd625aa3e31ebd8ea377c0b203af48d629018c918efb5c8694"
+      FRONTEND_URL: "http://localhost"
+    command: sh -c "npm install --legacy-peer-deps && npx prisma migrate deploy && npm run dev"
+    depends_on:
+      - database
+
+  database:
+    image: postgres:17
+    container_name: postgres-db-corumDB
+    environment:
+      POSTGRES_USER: admin      # Nom d'utilisateur
+      POSTGRES_PASSWORD: admin  # Mot de passe
+      POSTGRES_DB: corumDB    # Nom de la base de données
+    ports:
+      - "5435:5432"  # Port local : Port du conteneur
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistance des données
+    restart: always               # Assure le redémarrage automatique en cas de panne
+
+volumes:
+  postgres_data:
+    driver: local

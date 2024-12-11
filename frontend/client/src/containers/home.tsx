@@ -5,7 +5,7 @@ import { getUsers } from '../api/services/userService';
 import UserTable from '../components/table/UserTable';
 import UserFilter from '../components/table/UserFilter';
 import Pagination from '../components/table/Pagination';
-import { User } from '#types/user';
+import { User } from '../types/user';
 import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom';
 

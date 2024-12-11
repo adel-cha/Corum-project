@@ -16,9 +16,8 @@ export const loginHandler = async (
 ) => {
   try {
     const user = await authenticationService.getUserByEmail(request.body.email);
-
     if (!user) {
-      return reply.status(401).send({ error: "Invalid email or password" });
+      return reply.status(401).send(new Error("Invalid email or password"));
     }
 
     const token = await authenticationService.generateJWTToken(

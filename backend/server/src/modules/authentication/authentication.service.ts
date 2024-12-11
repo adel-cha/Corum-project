@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { AuthenticationModel } from "./authentication.model";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export class AuthenticationService {
   private authenticationModel: AuthenticationModel;
@@ -15,9 +15,7 @@ export class AuthenticationService {
   async getUserByEmail(email: string) {
     try {
       const user = await this.authenticationModel.getUserByEmail(email);
-      if (!user) {
-        throw new Error("User not found");
-      }
+
       return user;
     } catch (error) {
       console.error("Error in getUserByEmail:", error);
@@ -38,7 +36,8 @@ export class AuthenticationService {
     }
   ) {
     try {
-      const isPasswordValid = await bcrypt.compare(password, user.password);
+      const isPasswordValid = bcrypt.compareSync(password, user.password);
+
       if (!isPasswordValid) {
         throw new Error("Invalid email or password");
       }

@@ -92,7 +92,7 @@ export const updateUser = async (
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(
-        error.response?.data?.message ||
+        error.response?.data ||
           "Erreur lors de la mise à jour de l'utilisateur",
       );
     } else {

@@ -1,0 +1,10 @@
+version: '3.9'  # Ou vous pouvez l'omettre si vous utilisez Docker Compose v2
+
+services:
+  frontend:
+    container_name: Corum-frontend
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"  # Expose le port 80 pour accéder à l'application
