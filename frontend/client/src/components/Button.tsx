@@ -6,16 +6,19 @@ interface ButtonProps {
   onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   text,
   onClick,
+  dataTestId,
   className = 'mt-6 transition-all block py-3 px-4 w-full text-white font-medium rounded cursor-pointer bg-gradient-to-r from-teal-600 to-teal-400 hover:from-teal-700 hover:to-teal-500 focus:bg-teal-900 hover:shadow-lg',
   type = 'button',
   disabled = false,
 }) => (
   <button
+    data-testid={dataTestId}
     type={type}
     onClick={onClick}
     disabled={disabled}

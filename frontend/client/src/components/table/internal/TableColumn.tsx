@@ -41,15 +41,16 @@ export const TableColumn: React.FC<TableColumnProps> = ({
         <td className={className}>
           <div className="flex justify-around">
             <Link to={`/edit/${value}`}>
-              <FaEdit className={'text-teal-600 cursor-pointer'} />
+              <span data-testid="edit-icon">
+                <FaEdit className={'text-teal-600 cursor-pointer'} />
+              </span>
             </Link>
             {user?.id !== value ? (
-              <FaTrash
-                className={'text-teal-600 cursor-pointer'}
-                onClick={handleDeleteClick}
-              />
+              <span data-testid="delete-icon" onClick={handleDeleteClick}>
+                <FaTrash className={'text-teal-600 cursor-pointer'} />
+              </span>
             ) : (
-              <FaTrash className={' opacity-0'} />
+              <FaTrash data-testid="delete-icon" className={'opacity-0'} />
             )}
           </div>
         </td>

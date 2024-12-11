@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppRoutes } from './router';
-import { Header } from './components/header/Header';
+import Header from './components/header/Header';
 import Breadcrumb from './components/Breadcrumb';
 import useBreadcrumbs from './hooks/useBreadcrumbs';
 

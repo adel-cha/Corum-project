@@ -1,8 +1,8 @@
 import { useEffect, createContext, useState, ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { User } from '#types/user';
+import { User } from '#/types/user';
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null; // Utilisez User ou null
   login: (token: string, userData: User) => void;
   logout: () => void;

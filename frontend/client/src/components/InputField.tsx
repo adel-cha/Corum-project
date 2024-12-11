@@ -6,9 +6,9 @@ interface InputFieldProps {
   type: string;
   name?: string;
   value: string;
-
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  dataTestId?: string;
   required?: boolean;
 }
 
@@ -19,6 +19,7 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   value,
   onChange,
+  dataTestId,
   placeholder,
   required = false,
 }) => (
@@ -29,8 +30,9 @@ const InputField: React.FC<InputFieldProps> = ({
     <input
       type={type}
       id={id}
+      data-testid={dataTestId}
       name={name}
-      value={value}
+      value={value} // La valeur de l'input est contrôlée
       onChange={onChange}
       required={required}
       placeholder={placeholder}

@@ -25,5 +25,11 @@ module.exports = {
     react: {
       version: 'detect', // Auto-détection de la version de React
     },
+    'import/resolver': {
+      alias: {
+        map: [['#', './src']], // Remappez "#" vers "src
+        extensions: ['.ts', '.tsx', '.js', '.jsx'], // Extensions supportées
+      },
+    },
   },
 };

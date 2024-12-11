@@ -8,6 +8,7 @@
     "paths": {
       "#*": ["./src/*"]
     },
+    "types": ["vitest/globals"],
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -16,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
   },
-  "include": ["src"]
+  "include": ["src", "vitest.setup.ts", "src/components/__test__"]
 }

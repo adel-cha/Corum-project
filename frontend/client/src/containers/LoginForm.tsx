@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
   const handleNewPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null); // Réinitialiser l'erreur
-
+    console.log('newPassword', newPassword);
     try {
       if (user) {
         if (newPassword === password) {
@@ -49,7 +49,7 @@ const LoginForm: React.FC = () => {
         const userDataToUpdate = await getUsersById(user.id);
         await updateUser(user.id, {
           ...userDataToUpdate,
-          password: password,
+          password: newPassword,
           active: true,
         });
         logout();
@@ -69,15 +69,20 @@ const LoginForm: React.FC = () => {
     <form onSubmit={handleNewPassword} className="space-y-4">
       {error && <p className="text-red-500">{error}</p>}
       <InputField
-        id="password"
+        id="newPassword"
         label="Nouveau mot de passe"
         type="password"
+        dataTestId={'newPassword'}
         value={newPassword}
         placeholder="Créer votre nouveau mot de passe"
         onChange={(e) => setNewPassword(e.target.value)}
         required={true}
       />
-      <Button text="Créer mon mot de passe" type="submit" />
+      <Button
+        text="Créer mon mot de passe"
+        dataTestId={'button-newPassword'}
+        type="submit"
+      />
     </form>
   ) : (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -86,6 +91,7 @@ const LoginForm: React.FC = () => {
         id="email"
         label="Adresse Email"
         type="email"
+        dataTestId={'email'}
         value={email}
         placeholder="exemple@domaine.com"
         onChange={(e) => setEmail(e.target.value)}
@@ -95,12 +101,13 @@ const LoginForm: React.FC = () => {
         id="password"
         label="Mot de passe"
         type="password"
+        dataTestId={'password'}
         value={password}
         placeholder="Votre mot de passe"
         onChange={(e) => setPassword(e.target.value)}
         required={true}
       />
-      <Button text="Se connecter" type="submit" />
+      <Button text="Se connecter" dataTestId={'button-login'} type="submit" />
     </form>
   );
 };

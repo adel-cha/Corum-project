@@ -7,11 +7,20 @@ import {
   User,
 } from '../../types/user';
 
-export const getUsers = async (page: number, filters: UserFilter) => {
+export const getUsers = async (
+  page: number,
+  limit: number,
+  sortBy: string,
+  sortOrder: string,
+  filters: UserFilter,
+) => {
   try {
     const response = await apiClient.get('/users', {
       params: {
         page,
+        limit,
+        sortBy,
+        sortOrder,
         ...filters, // Ajoute les filtres si nécessaires
       },
     });

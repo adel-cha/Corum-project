@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { LuCircleUser } from 'react-icons/lu';
 import { MdOutlineArrowDropDown } from 'react-icons/md';
-export const Header = () => {
+const Header = () => {
   const { user, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -24,6 +24,7 @@ export const Header = () => {
       {user && (
         <div className="relative flex items-center space-x-4">
           <button
+            data-testid="user-toggle"
             className="flex items-center space-x-2  py-2 px-4 rounded-full focus:outline-none"
             onClick={toggleDropdown}
           >
@@ -57,3 +58,4 @@ export const Header = () => {
     </header>
   );
 };
+export default Header;

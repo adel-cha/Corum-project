@@ -29,7 +29,7 @@ const HomeContainer: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await getUsers(page, filter);
+      const response = await getUsers(page, limit, sortBy, sortOrder, filter);
       setUsers(response.data);
       setTotalPages(response.totalPages);
     } catch (err) {
@@ -61,9 +61,6 @@ const HomeContainer: React.FC = () => {
     setPage(1); // Réinitialiser à la première page lors du changement de limite
   };
 
-  const handlePageChange = (newPage: number) => {
-    setPage(newPage);
-  };
   const buttonStyle =
     'ml-2 mr-2 p-2 border text-white font-medium rounded cursor-pointer bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-500 focus:bg-teal-900 hover:shadow-lg';
   return (
@@ -93,6 +90,8 @@ const HomeContainer: React.FC = () => {
             currentPage={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            itemsPerPage={limit}
+            handleLimitChange={handleLimitChange}
           />
         </>
       )}

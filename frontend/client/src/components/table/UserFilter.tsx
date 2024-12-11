@@ -31,6 +31,7 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
       <div className="flex flex-col md:flex-row md:space-x-4">
         <div className="flex-1">
           <InputField
+            dataTestId="firstName"
             id="firstName"
             label="Prénom"
             type="text"
@@ -42,6 +43,7 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
         </div>
         <div className="flex-1">
           <InputField
+            dataTestId="lastName"
             id="lastName"
             label="Nom"
             type="text"
@@ -53,9 +55,10 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
         </div>
         <div className="flex-1">
           <InputField
+            dataTestId="email"
             id="email"
             label="Email"
-            type="email"
+            type="text"
             name="email"
             value={email}
             placeholder="Entrez la date de naissance"
@@ -64,6 +67,7 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
         </div>
         <div className="flex-1">
           <InputField
+            dataTestId="birthDate"
             id="birthDate"
             label="Date de naissance"
             type="date"
@@ -74,7 +78,7 @@ const UserFilter: React.FC<UserFilterProps> = ({ onFilter }) => {
           />
         </div>
         <div className="flex items-end mt-4 md:mt-0">
-          <Button text="Filtrer" type="submit" />
+          <Button text="Filtrer" dataTestId="submit filter" type="submit" />
         </div>
       </div>
     </form>
