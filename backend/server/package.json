@@ -7,6 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "test": "vitest",
     "build": "tsc",
+    "runDB": "tsx watch src/addUserDb.ts && node dist/addUserDb.js",
     "start": "node dist/server.js",
     "prod": "NODE_ENV=production tsx build src/server.ts && node dist/server.js"
   },

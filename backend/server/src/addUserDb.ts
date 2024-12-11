@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   try {
+    console.log("in");
     // Hacher le mot de passe
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync("corum123", salt);

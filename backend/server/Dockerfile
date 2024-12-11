@@ -21,4 +21,4 @@ RUN npx prisma generate
 EXPOSE 3000
 
 # Commande de démarrage
-CMD ["sh", "-c", "npx prisma migrate deploy","node src/addUserDb","npm", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy","npm", "start"]

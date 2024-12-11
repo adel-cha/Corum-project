@@ -13,6 +13,7 @@
         "build": "npm run build:frontend && npm run build:backend",
         "build:frontend": "cd frontend/client && npm run build",
         "build:backend": "cd backend/server && npm run build",
+        "runDB": "cd backend/server npx prisma migrate deploy && tsx watch src/addUserDb.ts && node dist/addUserDb.js",
         "lint": "npm run lint:frontend && npm run lint:backend",
         "lint:frontend": "cd frontend/client && npm run lint",
         "lint:backend": "cd backend/server && npm run lint"

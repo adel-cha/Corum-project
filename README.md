@@ -57,17 +57,15 @@ Follow these steps to get a local copy of the project up and running:
     ```
 4. **install db**:
     ```bash
-    npx prisma migrate deploy
-    npx tsc ./src/addUserDb.ts
-    node ./dist/addUserDb.js
+    npm run runDB
     ```
     
-4. **Run the application**:
+5. **Run the application**:
     ```bash
     npm start
     ```
 
-5. **Run the tests** (optional):
+6. **Run the tests** (optional):
     ```bash
     npm test
     ```
@@ -76,7 +74,12 @@ Follow these steps to get a local copy of the project up and running:
 
 1. Navigate to `http://localhost:3000` in your browser.
 2. Use the login page to authenticate.
-3. After logging in, you can view the list of users and perform actions like edit and delete.
+  ```env
+  email=admin@corum.com 
+  password=corum123
+  ```
+3. you need to change your password 
+4. After logging in, you can view the list of users and perform actions like edit and delete.
 
 ## API Endpoints
 
